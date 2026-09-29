@@ -53,3 +53,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
   targets.forEach(el => observer.observe(el));
 });
+// Membuat video logo berjalan seperti GIF
+const logoVideo = document.querySelector('.logo-video');
+
+if (logoVideo) {
+    logoVideo.autoplay = true;
+    logoVideo.muted = true;
+    logoVideo.loop = true;
+    logoVideo.playsInline = true;
+
+    // Jika video dijeda, langsung dimainkan lagi
+    logoVideo.addEventListener('pause', () => {
+        logoVideo.play().catch(() => {});
+    });
+
+    // Jika video selesai, langsung ulang
+    logoVideo.addEventListener('ended', () => {
+        logoVideo.play().catch(() => {});
+    });
+
+    // Mulai video
+    logoVideo.play().catch(() => {});
+}
