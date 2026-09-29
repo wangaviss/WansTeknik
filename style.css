@@ -193,14 +193,14 @@ a { color: inherit; text-decoration: none; }
 
 .logovideo {
     pointer-events: none;
-    width: 100%!important;
-    height: 100%!important;
+    width: 100%;
+    height: 100%;
 
-    object-fit: contain!important;
-    transform:scale(0,30)!important;
+    object-fit: contain;
+    transform:scale(0,30);
 
-    display: block!important;
-    background: #000!important;
+    display: block;
+    background: #000;
 }
 
 .hero-card-title { font-size: 34px; font-weight: 950; letter-spacing: -1px; }
