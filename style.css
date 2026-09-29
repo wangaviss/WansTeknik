@@ -177,18 +177,18 @@ a { color: inherit; text-decoration: none; }
 }
 
 .hero-video {
-    width: 100% !important;
-    max-width: 500px !important;
-    height: 100℅ !important;
+    width: 100%;
+    max-width: 500px;
+    height: 100℅;
 
-    display: flex !important;
-    justify-content: center!important;
-    align-items: center!important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    overflow: hidden!important;
-    border-radius: 25px!important;
+    overflow: hidden;
+    border-radius: 25px;
 
-    background: #07090d!important;
+    background: #07090d;
 }
 
 .logovideo {
