@@ -197,6 +197,7 @@ a { color: inherit; text-decoration: none; }
     height: 100% !important;
 
     object-fit: contain!important;
+    margin : auto;
 
     display: block!important;
     background: #000!important;
