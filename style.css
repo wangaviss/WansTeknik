@@ -192,6 +192,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .logovideo {
+    pointer-events: none;
     width: 100% !important;
     height: 100% !important;
 
