@@ -61,10 +61,10 @@ a { color: inherit; text-decoration: none; }
 }
 
 .brand img {
-  width: 250px;
-  height: 52px;
-  object-fit: contain;
-  display: block;
+  width: 250px!important;
+  height: 52px!important;
+  object-fit: contain!important;
+  display: block!important;
 }
 
 .brand strong {
@@ -177,28 +177,28 @@ a { color: inherit; text-decoration: none; }
 }
 
 .hero-video {
-    width: 100%;
-    max-width: 500px;
-    height: 100℅;
+    width: 100% !important;
+    max-width: 500px !important;
+    height: 100℅ !important;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: flex !important;
+    justify-content: center!important;
+    align-items: center!important;
 
-    overflow: hidden;
-    border-radius: 25px;
+    overflow: hidden!important;
+    border-radius: 25px!important;
 
-    background: #07090d;
+    background: #07090d!important;
 }
 
 .logovideo {
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
 
-    object-fit: contain;
+    object-fit: contain!important;
 
-    display: block;
-    background: #000;
+    display: block!important;
+    background: #000!important;
 }
 
 .hero-card-title { font-size: 34px; font-weight: 950; letter-spacing: -1px; }
