@@ -359,6 +359,78 @@ a { color: inherit; text-decoration: none; }
   .service-grid { grid-template-columns: repeat(2, 1fr); }
   .advantage-grid { grid-template-columns: repeat(2, 1fr); }
 }
+/* ================================
+   REVIEW PELANGGAN WANSTEKNIK
+   ================================ */
+
+.review-section {
+  padding: 70px 20px;
+  background: #f5f7fa;
+  text-align: center;
+  scroll-margin-top: 80px;
+}
+
+.review-box {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 25px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.review-icon {
+  font-size: 45px;
+  margin-bottom: 10px;
+}
+
+.review-box h2 {
+  margin: 10px 0;
+  font-size: 28px;
+  color: #222;
+}
+
+.review-box p {
+  margin: 0 auto 20px;
+  max-width: 500px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.review-stars {
+  margin: 20px 0;
+  font-size: 30px;
+  letter-spacing: 4px;
+  color: #f5b301;
+}
+
+.review-button {
+  display: inline-block;
+  padding: 14px 25px;
+  background: #1a73e8;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.review-button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.review-box small {
+  display: block;
+  margin-top: 18px;
+  color: #777;
+  line-height: 1.5;
+}
+
+/* Scroll halus ketika menu Review ditekan */
+html {
+  scroll-behavior: smooth;
+}
 
 @media (max-width: 720px) {
   .container { width: min(var(--container), calc(100% - 28px)); }
