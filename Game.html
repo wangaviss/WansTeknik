@@ -617,32 +617,30 @@ window.addEventListener("beforeunload",() => clearInterval(timer));
 
 /* Mulai dengan ranking */
 loadGlobalRanking();
-  <script>
-const howToPlayBtn = document.getElementById("howToPlayBtn");
-const howToPlayModal = document.getElementById("howToPlayModal");
-const closeHowToPlay = document.getElementById("closeHowToPlay");
-const closeHowToPlayBottom = document.getElementById("closeHowToPlayBottom");
 
-function openHowToPlay(){
-  if (!howToPlayModal) return;
-  howToPlayModal.classList.add("show");
-  howToPlayModal.setAttribute("aria-hidden","false");
-}
-function closeHowToPlayModal(){
-  if (!howToPlayModal) return;
-  howToPlayModal.classList.remove("show");
-  howToPlayModal.setAttribute("aria-hidden","true");
-}
-if (howToPlayBtn) howToPlayBtn.addEventListener("click", openHowToPlay);
-if (closeHowToPlay) closeHowToPlay.addEventListener("click", closeHowToPlayModal);
-if (closeHowToPlayBottom) closeHowToPlayBottom.addEventListener("click", closeHowToPlayModal);
-if (howToPlayModal) {
-  howToPlayModal.addEventListener("click", e => {
-    if (e.target === howToPlayModal) closeHowToPlayModal();
-  });
-}
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape") closeHowToPlayModal();
+document.addEventListener("DOMContentLoaded", function () {
+    const btn = document.getElementById("howToPlayBtn");
+    const modal = document.getElementById("howToPlayModal");
+    const closeBtn = document.getElementById("closeHowToPlay");
+
+    if (!btn || !modal || !closeBtn) {
+        console.error("Elemen Cara Bermain tidak ditemukan.");
+        return;
+    }
+
+    btn.onclick = function () {
+        modal.classList.add("show");
+    };
+
+    closeBtn.onclick = function () {
+        modal.classList.remove("show");
+    };
+
+    modal.onclick = function (e) {
+        if (e.target === modal) {
+            modal.classList.remove("show");
+        }
+    };
 });
 </script>
 </body>
