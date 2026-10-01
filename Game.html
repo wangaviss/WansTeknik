@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>WansTeknik Overload ⚡</title>
+<title>WansTeknik Overload</title>
 
 <style>
 *{
@@ -81,7 +81,50 @@ button{
   background:#00d9ff;
   color:#00131a;
 }
+.start-ranking{
+  margin-top:25px;
+  padding-top:18px;
+  border-top:1px solid #1d3854;
+}
 
+.start-ranking h3{
+  text-align:center;
+  margin:0 0 12px;
+}
+
+.start-rank-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:11px 13px;
+  margin-top:6px;
+  border-radius:10px;
+  background:#091625;
+  border:1px solid #172c42;
+}
+
+.start-rank-left{
+  display:flex;
+  gap:9px;
+  align-items:center;
+}
+
+.rank-number{
+  font-weight:900;
+  width:25px;
+}
+
+.rank-name{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  max-width:180px;
+}
+
+.rank-score{
+  color:#00e5ff;
+  font-weight:900;
+}
 /* TOP */
 
 .topbar{
@@ -336,11 +379,6 @@ button{
     <b>OVERLOAD!</b>
   </p>
 
-  <p>
-    💡 Semakin hemat dan semakin cepat,
-    semakin tinggi skor.
-  </p>
-
   <input
     id="playerName"
     maxlength="20"
@@ -353,6 +391,17 @@ button{
   >
     🚀 MULAI GAME
   </button>
+
+  <!-- RANKING AWAL -->
+  <div class="start-ranking">
+
+    <h3>🏆 RANKING TERBAIK</h3>
+
+    <div id="startRanking">
+      Belum ada pemain.
+    </div>
+
+  </div>
 
 </section>
 
@@ -1127,6 +1176,62 @@ function escapeHTML(text){
   return div.innerHTML;
 
 }
+  function showStartRanking(){
+
+  const ranking =
+    JSON.parse(
+      localStorage.getItem(
+        "wansTeknikOverload"
+      )
+    ) || [];
+
+  const box =
+    document.getElementById(
+      "startRanking"
+    );
+
+  if(!ranking.length){
+
+    box.innerHTML =
+      '<div style="text-align:center;color:#8296aa;padding:10px;">' +
+      'Belum ada skor. Jadilah pemain pertama! ⚡' +
+      '</div>';
+
+    return;
+  }
+
+  box.innerHTML = "";
+
+  ranking
+    .slice(0,5)
+    .forEach((item,index)=>{
+
+      const row =
+        document.createElement("div");
+
+      row.className =
+        "start-rank-row";
+
+      row.innerHTML = `
+        <div class="start-rank-left">
+          <span class="rank-number">
+            ${index + 1}.
+          </span>
+
+          <span class="rank-name">
+            ${escapeHTML(item.name)}
+          </span>
+        </div>
+
+        <span class="rank-score">
+          ${item.score}
+        </span>
+      `;
+
+      box.appendChild(row);
+
+    });
+  }
 
 </script>
 
