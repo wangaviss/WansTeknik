@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1220">
+<title>WansTeknik Overload - Global Ranking</title>
+<style>
+*{box-sizing:border-box}
+:root{
+  --bg:#07111f;--card:#101c2e;--card2:#16243a;--text:#f5f7fb;
+  --muted:#9fb0c8;--line:#263853;--accent:#38bdf8;--green:#22c55e;
+  --yellow:#facc15;--red:#ef4444;
+}
+body{
+  margin:0;font-family:Arial,Helvetica,sans-serif;background:
+  radial-gradient(circle at top,#17345a 0,#07111f 42%,#040914 100%);
+  color:var(--text);min-height:100vh;
+}
+.wrap{width:min(960px,94%);margin:auto;padding:22px 0 45px}
+header{text-align:center;margin-bottom:18px}
+.logo{font-size:34px;font-weight:900}
+.logo span{color:var(--accent)}
+.sub{color:var(--muted);margin-top:6px}
+.card{
+  background:rgba(16,28,46,.94);border:1px solid var(--line);
+  border-radius:20px;padding:20px;box-shadow:0 18px 50px rgba(0,0,0,.25);
+}
+.hidden{display:none!important}
+h1,h2,h3{margin-top:0}
+input{
+  width:100%;padding:14px 15px;border-radius:12px;border:1px solid #344a69;
+  background:#0a1526;color:#fff;font-size:16px;outline:none;
+}
+input:focus{border-color:var(--accent)}
+button{
+  border:0;border-radius:12px;padding:13px 17px;font-size:15px;font-weight:800;
+  cursor:pointer;color:#06101d;background:var(--accent);transition:.15s;
+}
+button:hover{transform:translateY(-1px);filter:brightness(1.06)}
+button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-secondary{background:#253752;color:#fff}
+.btn-danger{background:var(--red);color:#fff}
+.btn-green{background:var(--green)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}.logo{font-size:28px}}
+.notice{
+  padding:11px 13px;border-radius:11px;background:#0b1728;color:var(--muted);
+  font-size:13px;border:1px solid var(--line);margin-top:12px
+}
+.status{margin-top:12px;min-height:20px;color:var(--muted);font-size:14px}
+.rank{margin-top:14px}
+.rank-row{
+  display:grid;grid-template-columns:45px 1fr 90px;gap:8px;align-items:center;
+  padding:11px 10px;border-bottom:1px solid #203049
+}
+.rank-row:last-child{border-bottom:0}
+.rank-no{font-weight:900;color:var(--yellow)}
+.rank-score{text-align:right;font-weight:900;color:var(--accent)}
+.empty{text-align:center;color:var(--muted);padding:20px}
+.badge{display:inline-block;padding:5px 9px;border-radius:99px;background:#172a43;color:var(--accent);font-size:12px;font-weight:800}
+.topbar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:15px}
+.stat{background:#0c1728;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+.stat small{display:block;color:var(--muted);font-size:11px;margin-bottom:5px}
+.stat strong{font-size:21px}
+.capacity{
+  height:16px;background:#091321;border:1px solid var(--line);border-radius:99px;
+  overflow:hidden;margin:9px 0 18px
+}
+.capacity-bar{height:100%;width:0;background:var(--green);transition:.2s}
+.capacity-bar.warn{background:var(--yellow)}
+.capacity-bar.danger{background:var(--red)}
+.devices{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:700px){.devices{grid-template-columns:repeat(2,1fr)}}
+.device{
+  border:1px solid #2a3d58;background:#0c1728;border-radius:16px;padding:14px;
+  cursor:pointer;user-select:none;transition:.15s
+}
+.device.on{border-color:var(--green);box-shadow:0 0 0 1px rgba(34,197,94,.15)}
+.device.off{opacity:.82}
+.device-icon{font-size:29px}
+.device-name{font-weight:800;margin-top:5px}
+.device-load{font-size:13px;color:var(--muted);margin-top:4px}
+.device-state{margin-top:9px;font-size:12px;font-weight:800;color:var(--muted)}
+.device.on .device-state{color:var(--green)}
+.game-actions{display:flex;gap:10px;margin-top:15px;flex-wrap:wrap}
+#message{margin-top:13px;min-height:23px;font-weight:700}
+.good{color:var(--green)}.bad{color:var(--red)}.info{color:var(--accent)}
+.footer{text-align:center;color:#71839d;font-size:12px;margin-top:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="logo">⚡ Wans<span>Teknik</span></div>
+  <div class="sub">OVERLOAD • Tantangan mengatur beban listrik</div>
+</header>
+
+<section id="startScreen" class="card">
+  <div class="grid">
+    <div>
+      <span class="badge">🌍 GLOBAL GAME</span>
+      <h1 style="margin-top:10px">WansTeknik Overload</h1>
+      <p style="color:var(--muted)">
+        Nyalakan perangkat sebanyak mungkin tanpa melewati kapasitas listrik.
+        Semakin lama bertahan dan semakin tinggi level, semakin besar skor.
+      </p>
+
+      <label for="playerName"><b>Nama pemain</b></label>
+      <input id="playerName" maxlength="20" placeholder="Masukkan nama..." autocomplete="nickname">
+
+      <div class="actions">
+        <button id="startBtn">🎮 Mulai Game</button>
+        <button id="refreshRankBtn" class="btn-secondary">🔄 Refresh Ranking</button>
+      </div>
+      <div id="startStatus" class="status"></div>
+      <div class="notice">
+        💡 Skor akan masuk ke ranking global jika Supabase sudah dihubungkan.
+        Jika belum, game tetap bisa dimainkan dan skor disimpan di perangkat.
+      </div>
+    </div>
+
+    <div>
+      <h2>🏆 Top 10 Global</h2>
+      <div id="startRanking" class="rank"></div>
+    </div>
+  </div>
+</section>
+
+<section id="gameScreen" class="hidden">
+  <div class="topbar">
+    <div class="stat"><small>PEMAIN</small><strong id="uiPlayer">-</strong></div>
+    <div class="stat"><small>SKOR</small><strong id="uiScore">0</strong></div>
+    <div class="stat"><small>LEVEL</small><strong id="uiLevel">1</strong></div>
+    <div class="stat"><small>WAKTU</small><strong id="uiTime">30</strong></div>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+      <div>
+        <h2 style="margin-bottom:4px">⚡ Kapasitas Listrik</h2>
+        <div style="color:var(--muted);font-size:13px">
+          Beban aktif: <b id="uiLoad">0</b> / <b id="uiCapacity">100</b> W
+        </div>
+      </div>
+      <span id="loadBadge" class="badge">AMAN</span>
+    </div>
+
+    <div class="capacity"><div id="capacityBar" class="capacity-bar"></div></div>
+
+    <div id="devices" class="devices"></div>
+
+    <div id="message" class="info">Nyalakan perangkat. Jangan sampai overload!</div>
+
+    <div class="game-actions">
+      <button id="endBtn" class="btn-danger">⛔ Akhiri Game</button>
+    </div>
+  </div>
+</section>
+
+<section id="resultScreen" class="card hidden">
+  <h1 id="resultTitle">🏁 Game Selesai</h1>
+  <div id="resultText" style="color:var(--muted);margin-bottom:15px"></div>
+  <div class="topbar">
+    <div class="stat"><small>SKOR</small><strong id="finalScore">0</strong></div>
+    <div class="stat"><small>LEVEL</small><strong id="finalLevel">1</strong></div>
+    <div class="stat"><small>COMBO</small><strong id="finalCombo">0</strong></div>
+    <div class="stat"><small>STATUS</small><strong id="saveStatus">...</strong></div>
+  </div>
+  <div class="actions">
+    <button id="playAgainBtn">🎮 Main Lagi</button>
+    <button id="homeBtn" class="btn-secondary">🏠 Menu Utama</button>
+  </div>
+  <div id="resultRank" class="rank"></div>
+</section>
+
+<div class="footer">WansTeknik • Game publik • Global Ranking</div>
+</div>
+
+<!-- Supabase JS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* =========================================================
+   SUPABASE CONFIG
+   GANTI 2 NILAI DI BAWAH INI DENGAN DATA PROJECT SUPABASE.
+   JANGAN MASUKKAN service_role key.
+   ========================================================= */
+const SUPABASE_URL = "GANTI_DENGAN_PROJECT_URL";
+const SUPABASE_KEY = "GANTI_DENGAN_PUBLISHABLE_ATAU_ANON_KEY";
+
+let db = null;
+const supabaseReady =
+  SUPABASE_URL.startsWith("https://") &&
+  !SUPABASE_URL.includes("GANTI_DENGAN") &&
+  SUPABASE_KEY &&
+  !SUPABASE_KEY.includes("GANTI_DENGAN");
+
+if (supabaseReady && window.supabase) {
+  db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+}
+
+/* =========================================================
+   GAME DATA
+   ========================================================= */
+const DEVICE_POOL = [
+  {icon:"💡",name:"Lampu",load:10},
+  {icon:"🌀",name:"Kipas",load:20},
+  {icon:"📺",name:"TV",load:25},
+  {icon:"💻",name:"Laptop",load:30},
+  {icon:"🧊",name:"Kulkas",load:35},
+  {icon:"🍚",name:"Rice Cooker",load:40},
+  {icon:"🧺",name:"Mesin Cuci",load:45},
+  {icon:"☕",name:"Dispenser",load:25},
+  {icon:"🖥️",name:"PC",load:45},
+  {icon:"🔥",name:"Pemanas",load:50},
+  {icon:"❄️",name:"AC",load:55},
+  {icon:"⚡",name:"Heater",load:60}
+];
+
+let player = "";
+let score = 0;
+let level = 1;
+let combo = 0;
+let bestCombo = 0;
+let timeLeft = 30;
+let capacity = 100;
+let currentLoad = 0;
+let devices = [];
+let timer = null;
+let gameActive = false;
+let submitted = false;
+
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+const $ = id => document.getElementById(id);
+const startScreen = $("startScreen");
+const gameScreen = $("gameScreen");
+const resultScreen = $("resultScreen");
+const playerName = $("playerName");
+const startBtn = $("startBtn");
+const refreshRankBtn = $("refreshRankBtn");
+const startRanking = $("startRanking");
+const devicesEl = $("devices");
+const messageEl = $("message");
+
+/* =========================================================
+   LOCAL FALLBACK
+   ========================================================= */
+function getLocalRanking(){
+  try {
+    return JSON.parse(localStorage.getItem("wansTeknikOverload") || "[]");
+  } catch(e) {
+    return [];
+  }
+}
+
+function saveLocalScore(){
+  const list = getLocalRanking();
+  list.push({
+    player: player,
+    name: player,
+    score: Math.max(0, Math.floor(score)),
+    created_at: new Date().toISOString()
+  });
+  list.sort((a,b) => Number(b.score)-Number(a.score));
+  localStorage.setItem("wansTeknikOverload", JSON.stringify(list.slice(0,10)));
+}
+
+/* =========================================================
+   GLOBAL RANKING
+   ========================================================= */
+function renderRanking(list, target){
+  if (!list || !list.length) {
+    target.innerHTML = '<div class="empty">Belum ada skor. Jadilah yang pertama! 🚀</div>';
+    return;
+  }
+
+  target.innerHTML = list.slice(0,10).map((r,i) => {
+    const name = escapeHtml(r.player || r.name || "Pemain");
+    const sc = Number(r.score || 0).toLocaleString("id-ID");
+    return `
+      <div class="rank-row">
+        <div class="rank-no">#${i+1}</div>
+        <div>${name}</div>
+        <div class="rank-score">${sc}</div>
+      </div>`;
+  }).join("");
+}
+
+async function loadGlobalRanking(){
+  if (!db) {
+    renderRanking(getLocalRanking(), startRanking);
+    $("startStatus").textContent =
+      "Mode lokal aktif — isi konfigurasi Supabase untuk ranking global.";
+    return;
+  }
+
+  $("startStatus").textContent = "Mengambil ranking global...";
+  try {
+    const {data,error} = await db
+      .from("leaderboard")
+      .select("player,score,created_at")
+      .order("score",{ascending:false})
+      .order("created_at",{ascending:true})
+      .limit(10);
+
+    if (error) throw error;
+
+    renderRanking(data || [], startRanking);
+    $("startStatus").textContent = "🌍 Ranking global terhubung.";
+  } catch(e) {
+    console.error(e);
+    renderRanking(getLocalRanking(), startRanking);
+    $("startStatus").textContent =
+      "Ranking global belum dapat diakses. Menampilkan ranking perangkat.";
+  }
+}
+
+async function submitScore(){
+  if (submitted) return;
+  submitted = true;
+
+  const finalScore = Math.max(0, Math.floor(score));
+
+  // Selalu simpan lokal sebagai cadangan.
+  saveLocalScore();
+
+  if (!db) {
+    $("saveStatus").textContent = "LOKAL";
+    renderRanking(getLocalRanking(), $("resultRank"));
+    return;
+  }
+
+  $("saveStatus").textContent = "...";
+
+  try {
+    const {error} = await db.from("leaderboard").insert({
+      player: player.slice(0,20),
+      score: finalScore
+    });
+
+    if (error) throw error;
+
+    $("saveStatus").textContent = "GLOBAL";
+    const {data,error:readError} = await db
+      .from("leaderboard")
+      .select("player,score,created_at")
+      .order("score",{ascending:false})
+      .order("created_at",{ascending:true})
+      .limit(10);
+
+    if (!readError) renderRanking(data || [], $("resultRank"));
+  } catch(e) {
+    console.error(e);
+    $("saveStatus").textContent = "LOKAL";
+    renderRanking(getLocalRanking(), $("resultRank"));
+  }
+}
+
+/* =========================================================
+   GAME
+   ========================================================= */
+function startGame(){
+  player = playerName.value.trim().replace(/\s+/g," ").slice(0,20);
+
+  if (!player) {
+    $("startStatus").textContent = "Masukkan nama pemain dulu bre 😄";
+    playerName.focus();
+    return;
+  }
+
+  score = 0;
+  level = 1;
+  combo = 0;
+  bestCombo = 0;
+  timeLeft = 30;
+  capacity = 100;
+  currentLoad = 0;
+  submitted = false;
+  gameActive = true;
+
+  startScreen.classList.add("hidden");
+  resultScreen.classList.add("hidden");
+  gameScreen.classList.remove("hidden");
+
+  $("uiPlayer").textContent = player;
+  buildLevel();
+  updateUI();
+
+  clearInterval(timer);
+  timer = setInterval(tick,1000);
+}
+
+function buildLevel(){
+  clearMessage();
+
+  capacity = Math.min(100 + ((level-1)*15), 220);
+  currentLoad = 0;
+
+  const count = Math.min(6 + Math.floor((level-1)/2), 10);
+
+  // Shuffle pool dan ambil perangkat.
+  const shuffled = [...DEVICE_POOL].sort(() => Math.random() - .5);
+  devices = shuffled.slice(0,count).map((d,i) => ({
+    ...d,id:i,on:false
+  }));
+
+  renderDevices();
+  $("uiCapacity").textContent = capacity;
+}
+
+function renderDevices(){
+  devicesEl.innerHTML = devices.map(d => `
+    <div class="device off" data-id="${d.id}" onclick="toggleDevice(${d.id})">
+      <div class="device-icon">${d.icon}</div>
+      <div class="device-name">${escapeHtml(d.name)}</div>
+      <div class="device-load">${d.load} W</div>
+      <div class="device-state">OFF</div>
+    </div>
+  `).join("");
+}
+
+function toggleDevice(id){
+  if (!gameActive) return;
+
+  const d = devices.find(x => x.id === id);
+  if (!d) return;
+
+  if (!d.on) {
+    if (currentLoad + d.load > capacity) {
+      combo = 0;
+      score = Math.max(0, score - 20);
+      showMessage("⚠️ OVERLOAD! Perangkat tidak bisa dinyalakan. -20 skor.", "bad");
+      updateUI();
+      return;
+    }
+
+    d.on = true;
+    currentLoad += d.load;
+    combo++;
+    bestCombo = Math.max(bestCombo,combo);
+
+    const gain = 10 + (level * 3) + Math.min(combo * 2,20);
+    score += gain;
+    showMessage(`✅ ${d.name} ON +${gain} skor`, "good");
+
+    // Naik level setiap beberapa poin.
+    const nextLevel = 1 + Math.floor(score / 250);
+    if (nextLevel > level) {
+      level = nextLevel;
+      timeLeft = Math.min(timeLeft + 8,45);
+      showMessage(`🚀 LEVEL ${level}! +8 detik`, "info");
+      setTimeout(() => { if(gameActive) buildLevel(); }, 450);
+    }
+  } else {
+    d.on = false;
+    currentLoad -= d.load;
+    combo = 0;
+    showMessage(`↩️ ${d.name} OFF`, "info");
+  }
+
+  updateUI();
+  updateDeviceVisuals();
+}
+
+function updateDeviceVisuals(){
+  document.querySelectorAll(".device").forEach(el => {
+    const id = Number(el.dataset.id);
+    const d = devices.find(x => x.id === id);
+    if (!d) return;
+    el.classList.toggle("on",d.on);
+    el.classList.toggle("off",!d.on);
+    el.querySelector(".device-state").textContent = d.on ? "ON • AKTIF" : "OFF";
+  });
+}
+
+function updateUI(){
+  $("uiScore").textContent = score.toLocaleString("id-ID");
+  $("uiLevel").textContent = level;
+  $("uiTime").textContent = timeLeft;
+  $("uiLoad").textContent = currentLoad;
+  $("uiCapacity").textContent = capacity;
+
+  const pct = Math.min((currentLoad/capacity)*100,100);
+  const bar = $("capacityBar");
+  bar.style.width = pct + "%";
+  bar.classList.toggle("warn",pct >= 70 && pct < 90);
+  bar.classList.toggle("danger",pct >= 90);
+
+  const badge = $("loadBadge");
+  if (pct >= 90) {
+    badge.textContent = "⚠️ KRITIS";
+    badge.style.color = "var(--red)";
+  } else if (pct >= 70) {
+    badge.textContent = "⚠️ TINGGI";
+    badge.style.color = "var(--yellow)";
+  } else {
+    badge.textContent = "AMAN";
+    badge.style.color = "var(--green)";
+  }
+}
+
+function tick(){
+  if (!gameActive) return;
+
+  timeLeft--;
+  updateUI();
+
+  if (timeLeft <= 0) {
+    finishGame("⏱️ Waktu habis!");
+  }
+}
+
+function finishGame(reason){
+  if (!gameActive) return;
+  gameActive = false;
+  clearInterval(timer);
+
+  $("finalScore").textContent = score.toLocaleString("id-ID");
+  $("finalLevel").textContent = level;
+  $("finalCombo").textContent = bestCombo;
+  $("resultTitle").textContent = "🏁 Game Selesai";
+  $("resultText").textContent = `${reason} ${player}, skor kamu ${score.toLocaleString("id-ID")}.`;
+
+  gameScreen.classList.add("hidden");
+  resultScreen.classList.remove("hidden");
+  $("saveStatus").textContent = "...";
+  $("resultRank").innerHTML = '<div class="empty">Menyimpan skor...</div>';
+
+  submitScore();
+}
+
+function endGame(){
+  finishGame("Game dihentikan.");
+}
+
+function clearMessage(){
+  messageEl.textContent = "Nyalakan perangkat. Jangan sampai overload!";
+  messageEl.className = "info";
+}
+
+function showMessage(text,type){
+  messageEl.textContent = text;
+  messageEl.className = type;
+}
+
+function home(){
+  clearInterval(timer);
+  gameActive = false;
+  resultScreen.classList.add("hidden");
+  gameScreen.classList.add("hidden");
+  startScreen.classList.remove("hidden");
+  loadGlobalRanking();
+}
+
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g,m => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[m]));
+}
+
+/* =========================================================
+   EVENTS
+   ========================================================= */
+startBtn.addEventListener("click",startGame);
+refreshRankBtn.addEventListener("click",loadGlobalRanking);
+$("endBtn").addEventListener("click",endGame);
+$("playAgainBtn").addEventListener("click",startGame);
+$("homeBtn").addEventListener("click",home);
+
+playerName.addEventListener("keydown",e => {
+  if (e.key === "Enter") startGame();
+});
+
+window.addEventListener("beforeunload",() => clearInterval(timer));
+
+/* Mulai dengan ranking */
+loadGlobalRanking();
+</script>
+</body>
+</html>
