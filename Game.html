@@ -578,6 +578,24 @@ window.addEventListener("beforeunload",() => clearInterval(timer));
 
 /* Mulai dengan ranking */
 loadGlobalRanking();
+  <script>
+const howToPlayBtn = document.getElementById("howToPlayBtn");
+const howToPlayModal = document.getElementById("howToPlayModal");
+const closeHowToPlay = document.getElementById("closeHowToPlay");
+
+howToPlayBtn.addEventListener("click", () => {
+    howToPlayModal.classList.add("show");
+});
+
+closeHowToPlay.addEventListener("click", () => {
+    howToPlayModal.classList.remove("show");
+});
+
+howToPlayModal.addEventListener("click", (e) => {
+    if (e.target === howToPlayModal) {
+        howToPlayModal.classList.remove("show");
+    }
+});
 </script>
 </body>
 </html>
