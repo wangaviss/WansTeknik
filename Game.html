@@ -1164,25 +1164,23 @@ function escapeHTML(text){
   return div.innerHTML;
 
 }
-  function showStartRanking(){
+  function showRanking(){
 
   const ranking =
     JSON.parse(
-      localStorage.getItem(
-        "wansTeknikOverload"
-      )
+      localStorage.getItem("wansTeknikOverload")
     ) || [];
 
   const box =
-    document.getElementById(
-      "startRanking"
-    );
+    document.getElementById("ranking");
+
+  if(!box) return;
 
   if(!ranking.length){
 
     box.innerHTML =
       '<div style="text-align:center;color:#8296aa;padding:10px;">' +
-      'Belum ada skor. Jadilah pemain pertama! ⚡' +
+      'Belum ada pemain. Jadilah yang pertama! ⚡' +
       '</div>';
 
     return;
@@ -1190,37 +1188,100 @@ function escapeHTML(text){
 
   box.innerHTML = "";
 
-  ranking
-    .slice(0,5)
-    .forEach((item,index)=>{
+  ranking.slice(0,10).forEach((item,index)=>{
 
-      const row =
-        document.createElement("div");
+    const row =
+      document.createElement("div");
 
-      row.className =
-        "start-rank-row";
+    row.className = "rank-row";
 
-      row.innerHTML = `
-        <div class="start-rank-left">
-          <span class="rank-number">
-            ${index + 1}.
-          </span>
+    row.innerHTML = `
+      <span>
+        ${index + 1}. ${escapeHTML(item.name)}
+      </span>
 
-          <span class="rank-name">
-            ${escapeHTML(item.name)}
-          </span>
-        </div>
+      <b>
+        ${item.score}
+      </b>
+    `;
 
-        <span class="rank-score">
-          ${item.score}
-        </span>
-      `;
+    box.appendChild(row);
 
-      box.appendChild(row);
+  });
 
-    });
+}
+
+
+function showStartRanking(){
+
+  const ranking =
+    JSON.parse(
+      localStorage.getItem("wansTeknikOverload")
+    ) || [];
+
+  const box =
+    document.getElementById("startRanking");
+
+  if(!box) return;
+
+  if(!ranking.length){
+
+    box.innerHTML =
+      '<div style="text-align:center;color:#8296aa;padding:10px;">' +
+      'Belum ada pemain. Jadilah yang pertama! ⚡' +
+      '</div>';
+
+    return;
   }
 
+  box.innerHTML = "";
+
+  ranking.slice(0,10).forEach((item,index)=>{
+
+    const row =
+      document.createElement("div");
+
+    row.className = "start-rank-row";
+
+    row.innerHTML = `
+      <div class="start-rank-left">
+
+        <span class="rank-number">
+          ${index + 1}.
+        </span>
+
+        <span class="rank-name">
+          ${escapeHTML(item.name)}
+        </span>
+
+      </div>
+
+      <span class="rank-score">
+        ${item.score}
+      </span>
+    `;
+
+    box.appendChild(row);
+
+  });
+
+}
+
+
+function escapeHTML(text){
+
+  const div =
+    document.createElement("div");
+
+  div.textContent = text;
+
+  return div.innerHTML;
+
+}
+
+
+// Tampilkan ranking saat halaman dibuka
+showStartRanking();
 </script>
 
 </body>
