@@ -569,6 +569,12 @@ html {
   .area-card {
     padding: 28px 20px;
   }
+   .hero-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+   }
 
 
    
