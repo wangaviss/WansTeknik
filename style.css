@@ -573,29 +573,17 @@ html {
 
    .btn-riwayat {
   display: inline-flex;
-  align-items: center;
   justify-content: center;
-  gap: 8px;
-
-  margin-top: 15px;
-  padding: 12px 20px;
-
-  background: #101827;
-  color: #fff;
-
-  border-radius: 10px;
-  text-decoration: none;
-
-  font-weight: 700;
-  font-size: 14px;
-
-  transition: 0.2s ease;
+  align-items: center;
+  min-height: 50px;
+  padding: 0 21px;
+  border-radius: 11px;
+  font-weight: 900;
+  border: 1px solid transparent;
+  transition: .2s ease;
 }
 
-.btn-riwayat:hover {
-  transform: translateY(-2px);
-  opacity: 0.9;
-}
+
 
   .area-icon {
     font-size: 38px;
