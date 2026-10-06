@@ -569,20 +569,15 @@ html {
   .area-card {
     padding: 28px 20px;
   }
-   .hero-secondary-actions {
+
+   .area-icon {
+    font-size: 38px;
+   }
+
+   }
+
+ .hero-secondary-actions {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
-}
-
-
-   
-
-
-
-  .area-icon {
-    font-size: 38px;
-  }
-
-   }
+  gap: 12px; }
