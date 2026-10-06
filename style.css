@@ -571,17 +571,7 @@ html {
   }
 
 
-   .btn-riwayat {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 50px;
-  padding: 0 21px;
-  border-radius: 11px;
-  font-weight: 900;
-  border: 1px solid transparent;
-  transition: .2s ease;
-}
+   
 
 
 
