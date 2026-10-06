@@ -1,6 +1,6 @@
 /* =========================================================
    WANSTEKNIK - STYLE
-   Palet utama mengikuti poster: hitam + putih + biru.
+   Palet utama: hitam + putih + biru
    ========================================================= */
 
 :root {
@@ -17,32 +17,45 @@
   --container: 1160px;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--text);
   background: var(--white);
   line-height: 1.6;
 }
 
-a { color: inherit; text-decoration: none; }
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
 .container {
   width: min(var(--container), calc(100% - 40px));
   margin-inline: auto;
 }
 
-/* Header */
+/* =========================================================
+   HEADER
+   ========================================================= */
+
 .header {
   position: sticky;
   top: 0;
   z-index: 50;
   background: rgba(7, 9, 13, .94);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255,255,255,.08);
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
 }
 
 .nav-wrap {
@@ -61,10 +74,10 @@ a { color: inherit; text-decoration: none; }
 }
 
 .brand img {
-  width: 250px!important;
-  height: 52px!important;
-  object-fit: contain!important;
-  display: block!important;
+  width: 250px !important;
+  height: 52px !important;
+  object-fit: contain !important;
+  display: block !important;
 }
 
 .brand strong {
@@ -81,20 +94,62 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 2px;
 }
 
-.nav { display: flex; align-items: center; gap: 28px; color: #dce2ea; }
-.nav a { font-size: 14px; font-weight: 700; transition: .2s; }
-.nav a:hover { color: var(--blue); }
-.nav .nav-cta { padding: 10px 17px; border-radius: 10px; background: var(--blue); color: white; }
-.nav .nav-cta:hover { background: #2995ff; color: white; }
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  color: #dce2ea;
+}
 
-.menu-toggle { display: none; background: none; border: 0; cursor: pointer; }
-.menu-toggle span { display: block; width: 25px; height: 2px; background: white; margin: 5px; }
+.nav a {
+  font-size: 14px;
+  font-weight: 700;
+  transition: .2s;
+}
 
-/* Hero */
+.nav a:hover {
+  color: var(--blue);
+}
+
+.nav .nav-cta {
+  padding: 10px 17px;
+  border-radius: 10px;
+  background: var(--blue);
+  color: white;
+}
+
+.nav .nav-cta:hover {
+  background: #2995ff;
+  color: white;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background: white;
+  margin: 5px;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
 .hero {
   color: white;
   background:
-    radial-gradient(circle at 85% 25%, rgba(8,127,245,.24), transparent 28%),
+    radial-gradient(
+      circle at 85% 25%,
+      rgba(8, 127, 245, .24),
+      transparent 28%
+    ),
     linear-gradient(135deg, #07090d 0%, #111722 100%);
   overflow: hidden;
 }
@@ -122,7 +177,9 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: -3px;
 }
 
-.hero h1 span { color: var(--blue); }
+.hero h1 span {
+  color: var(--blue);
+}
 
 .hero-text {
   max-width: 670px;
@@ -131,7 +188,41 @@ a { color: inherit; text-decoration: none; }
   margin: 25px 0;
 }
 
-.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+/* =========================================================
+   HERO BUTTON LAYOUT
+   WhatsApp = kiri
+   Lihat Layanan = kanan
+   Riwayat = tepat di bawah Lihat Layanan
+   ========================================================= */
+
+.hero-actions {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  column-gap: 12px;
+  row-gap: 12px;
+  align-items: start;
+  justify-content: start;
+}
+
+.hero-actions .btn-primary {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.hero-actions .btn-outline:nth-of-type(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.hero-actions .btn-outline:nth-of-type(3) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+/* =========================================================
+   BUTTON
+   ========================================================= */
 
 .btn {
   display: inline-flex;
@@ -144,12 +235,35 @@ a { color: inherit; text-decoration: none; }
   border: 1px solid transparent;
   transition: .2s ease;
   cursor: pointer;
+  white-space: nowrap;
 }
 
-.btn-primary { background: var(--blue); color: white; box-shadow: 0 10px 25px rgba(8,127,245,.25); }
-.btn-primary:hover { background: #2995ff; transform: translateY(-2px); }
-.btn-outline { border-color: #586372; color: white; }
-.btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+.btn-primary {
+  background: var(--blue);
+  color: white;
+  box-shadow: 0 10px 25px rgba(8, 127, 245, .25);
+}
+
+.btn-primary:hover {
+  background: #2995ff;
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  border-color: #586372;
+  color: white;
+  background: transparent;
+}
+
+.btn-outline:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   HERO POINTS
+   ========================================================= */
 
 .hero-points {
   display: flex;
@@ -159,6 +273,10 @@ a { color: inherit; text-decoration: none; }
   color: #b8c1cd;
   font-size: 13px;
 }
+
+/* =========================================================
+   HERO CARD / VIDEO
+   ========================================================= */
 
 .hero-card {
   width: min(430px, 100%);
@@ -170,10 +288,14 @@ a { color: inherit; text-decoration: none; }
   justify-content: center;
   align-items: center;
   text-align: center;
-  border: 1px solid rgba(255,255,255,.13);
+  border: 1px solid rgba(255, 255, 255, .13);
   border-radius: 30px;
-  background: linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.025));
-  box-shadow: 0 30px 70px rgba(0,0,0,.35);
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, .08),
+    rgba(255, 255, 255, .025)
+  );
+  box-shadow: 0 30px 70px rgba(0, 0, 0, .35);
 }
 
 .hero-video {
@@ -189,22 +311,68 @@ a { color: inherit; text-decoration: none; }
   display: block;
 }
 
-.hero-card-title { font-size: 34px; font-weight: 950; letter-spacing: -1px; }
-.hero-card-subtitle { color: #bfc8d4; font-size: 11px; letter-spacing: 4px; font-weight: 800; }
-.hero-line { width: 80px; height: 3px; background: var(--blue); margin: 18px 0; }
-.hero-card p { color: #aeb8c5; max-width: 290px; font-size: 14px; }
+.hero-card-title {
+  font-size: 34px;
+  font-weight: 950;
+  letter-spacing: -1px;
+}
 
-@keyframes spin { to { transform: rotate(360deg); } }
+.hero-card-subtitle {
+  color: #bfc8d4;
+  font-size: 11px;
+  letter-spacing: 4px;
+  font-weight: 800;
+}
 
-/* Sections */
-.section { padding: 100px 0; }
-.section-heading { max-width: 700px; margin-bottom: 45px; }
-.section-heading h2, .two-col h2, .contact-box h2 {
+.hero-line {
+  width: 80px;
+  height: 3px;
+  background: var(--blue);
+  margin: 18px 0;
+}
+
+.hero-card p {
+  color: #aeb8c5;
+  max-width: 290px;
+  font-size: 14px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   SECTIONS
+   ========================================================= */
+
+.section {
+  padding: 100px 0;
+}
+
+.section-heading {
+  max-width: 700px;
+  margin-bottom: 45px;
+}
+
+.section-heading h2,
+.two-col h2,
+.contact-box h2 {
   font-size: clamp(32px, 4vw, 48px);
   line-height: 1.05;
   letter-spacing: -1.7px;
 }
-.section-heading p:not(.eyebrow), .lead { color: var(--muted); margin-top: 12px; }
+
+.section-heading p:not(.eyebrow),
+.lead {
+  color: var(--muted);
+  margin-top: 12px;
+}
+
+/* =========================================================
+   SERVICES
+   ========================================================= */
 
 .service-grid {
   display: grid;
@@ -217,11 +385,15 @@ a { color: inherit; text-decoration: none; }
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: white;
-  box-shadow: 0 5px 20px rgba(10,20,35,.03);
+  box-shadow: 0 5px 20px rgba(10, 20, 35, .03);
   transition: .25s ease;
 }
 
-.service-card:hover { transform: translateY(-7px); box-shadow: var(--shadow); border-color: #c9d7e7; }
+.service-card:hover {
+  transform: translateY(-7px);
+  box-shadow: var(--shadow);
+  border-color: #c9d7e7;
+}
 
 .icon {
   width: 58px;
@@ -236,15 +408,46 @@ a { color: inherit; text-decoration: none; }
   margin-bottom: 22px;
 }
 
-.service-card h3 { font-size: 22px; margin-bottom: 9px; }
-.service-card p { color: var(--muted); font-size: 14px; }
-.service-card ul { list-style: none; margin-top: 20px; }
-.service-card li { font-size: 13px; font-weight: 700; padding: 7px 0; border-top: 1px solid var(--border); }
-.service-card li::before { content: "✓"; color: var(--blue); margin-right: 8px; }
+.service-card h3 {
+  font-size: 22px;
+  margin-bottom: 9px;
+}
 
-/* Dark advantages */
-.section-dark { background: var(--black); color: white; }
-.light p:not(.eyebrow) { color: #aeb8c5; }
+.service-card p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.service-card ul {
+  list-style: none;
+  margin-top: 20px;
+}
+
+.service-card li {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 7px 0;
+  border-top: 1px solid var(--border);
+}
+
+.service-card li::before {
+  content: "✓";
+  color: var(--blue);
+  margin-right: 8px;
+}
+
+/* =========================================================
+   DARK ADVANTAGES
+   ========================================================= */
+
+.section-dark {
+  background: var(--black);
+  color: white;
+}
+
+.light p:not(.eyebrow) {
+  color: #aeb8c5;
+}
 
 .advantage-grid {
   display: grid;
@@ -254,15 +457,46 @@ a { color: inherit; text-decoration: none; }
   border: 1px solid #252b34;
 }
 
-.advantage { background: #0c1016; padding: 30px; min-height: 180px; }
-.advantage span { font-size: 27px; color: var(--blue); display: block; margin-bottom: 15px; }
-.advantage strong { font-size: 18px; display: block; }
-.advantage p { color: #9ba6b4; font-size: 13px; margin-top: 8px; }
+.advantage {
+  background: #0c1016;
+  padding: 30px;
+  min-height: 180px;
+}
 
-/* Process */
-.two-col { display: grid; grid-template-columns: .85fr 1.15fr; gap: 90px; align-items: start; }
+.advantage span {
+  font-size: 27px;
+  color: var(--blue);
+  display: block;
+  margin-bottom: 15px;
+}
 
-.steps { display: grid; gap: 12px; }
+.advantage strong {
+  font-size: 18px;
+  display: block;
+}
+
+.advantage p {
+  color: #9ba6b4;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+/* =========================================================
+   PROCESS
+   ========================================================= */
+
+.two-col {
+  display: grid;
+  grid-template-columns: .85fr 1.15fr;
+  gap: 90px;
+  align-items: start;
+}
+
+.steps {
+  display: grid;
+  gap: 12px;
+}
+
 .step {
   display: grid;
   grid-template-columns: 60px 1fr;
@@ -271,12 +505,30 @@ a { color: inherit; text-decoration: none; }
   border: 1px solid var(--border);
   border-radius: 15px;
 }
-.step b { color: var(--blue); font-size: 18px; }
-.step h3 { font-size: 18px; }
-.step p { color: var(--muted); font-size: 13px; margin-top: 3px; }
 
-/* Contact */
-.contact-section { background: var(--surface); }
+.step b {
+  color: var(--blue);
+  font-size: 18px;
+}
+
+.step h3 {
+  font-size: 18px;
+}
+
+.step p {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+/* =========================================================
+   CONTACT
+   ========================================================= */
+
+.contact-section {
+  background: var(--surface);
+}
+
 .contact-box {
   display: grid;
   grid-template-columns: 1.3fr .7fr;
@@ -288,7 +540,12 @@ a { color: inherit; text-decoration: none; }
   border: 1px solid var(--border);
 }
 
-.contact-list { display: grid; gap: 12px; margin-top: 30px; }
+.contact-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 30px;
+}
+
 .contact-list a {
   display: flex;
   gap: 15px;
@@ -297,10 +554,24 @@ a { color: inherit; text-decoration: none; }
   border: 1px solid var(--border);
   border-radius: 14px;
 }
-.contact-list a:hover { border-color: var(--blue); }
-.contact-icon { color: var(--blue); font-size: 25px; }
-.contact-list small { display: block; color: var(--muted); }
-.contact-list strong { display: block; }
+
+.contact-list a:hover {
+  border-color: var(--blue);
+}
+
+.contact-icon {
+  color: var(--blue);
+  font-size: 25px;
+}
+
+.contact-list small {
+  display: block;
+  color: var(--muted);
+}
+
+.contact-list strong {
+  display: block;
+}
 
 .social-card {
   padding: 25px;
@@ -308,46 +579,117 @@ a { color: inherit; text-decoration: none; }
   border-radius: 20px;
   color: white;
 }
-.social-card h3 { margin-bottom: 15px; }
-.social-card > a:not(.btn) { display: block; padding: 12px 0; border-bottom: 1px solid #2b313a; color: #d7dee8; }
-.social-card .full { width: 100%; margin-top: 20px; }
 
-/* Floating button + footer */
-.floating-wa {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  width: 58px;
-  height: 58px;
-  border: 0;
-  border-radius: 50%;
-  background: #25d366;
-  color: white;
-  font-size: 27px;
-  box-shadow: 0 12px 28px rgba(0,0,0,.22);
-  z-index: 40;
-  cursor: pointer;
+.social-card h3 {
+  margin-bottom: 15px;
 }
 
-.footer { background: #05070a; color: #9da8b5; padding: 25px 0; }
-.footer-wrap { display: flex; justify-content: space-between; gap: 20px; align-items: center; }
-.footer strong { color: white; }
-.footer span { margin-left: 8px; font-size: 12px; }
-
-.reveal { opacity: 0; transform: translateY(20px); transition: .7s ease; }
-.reveal.visible { opacity: 1; transform: translateY(0); }
-
-/* Responsive */
-@media (max-width: 980px) {
-  .hero-grid, .two-col, .contact-box { grid-template-columns: 1fr; }
-  .hero-grid { padding-top: 70px; padding-bottom: 70px; }
-  .hero-card { max-width: 500px; }
-  .service-grid { grid-template-columns: repeat(2, 1fr); }
-  .advantage-grid { grid-template-columns: repeat(2, 1fr); }
+.social-card > a:not(.btn) {
+  display: block;
+  padding: 12px 0;
+  border-bottom: 1px solid #2b313a;
+  color: #d7dee8;
 }
-/* ================================
-   REVIEW PELANGGAN WANSTEKNIK
-   ================================ */
+
+.social-card .full {
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* =========================================================
+   AREA LAYANAN
+   ========================================================= */
+
+.area-layanan {
+  padding: 70px 20px;
+  background: #f8fafc;
+}
+
+.area-layanan .container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.area-layanan .section-title {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 40px;
+}
+
+.area-layanan .section-badge {
+  display: inline-block;
+  padding: 7px 14px;
+  margin-bottom: 12px;
+  border-radius: 30px;
+  background: #e8f4ff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.area-layanan .section-title h2 {
+  margin: 0 0 12px;
+  font-size: 34px;
+  line-height: 1.2;
+}
+
+.area-layanan .section-title p {
+  margin: 0;
+  color: #64748b;
+  line-height: 1.7;
+}
+
+.area-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.area-card {
+  background: #ffffff;
+  padding: 32px 28px;
+  text-align: center;
+  border-radius: 18px;
+  border: 1px solid #e5e7eb;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.area-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .08);
+}
+
+.area-icon {
+  font-size: 42px;
+  margin-bottom: 15px;
+}
+
+.area-card h3 {
+  margin: 0 0 12px;
+  font-size: 21px;
+}
+
+.area-card p {
+  margin: 0 0 20px;
+  color: #64748b;
+  line-height: 1.7;
+}
+
+.area-status {
+  display: inline-block;
+  padding: 7px 14px;
+  border-radius: 20px;
+  background: #f1f5f9;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* =========================================================
+   REVIEW PELANGGAN
+   ========================================================= */
 
 .review-section {
   padding: 70px 20px;
@@ -362,7 +704,7 @@ a { color: inherit; text-decoration: none; }
   padding: 40px 25px;
   background: #ffffff;
   border-radius: 20px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, .08);
 }
 
 .review-icon {
@@ -403,7 +745,7 @@ a { color: inherit; text-decoration: none; }
 
 .review-button:hover {
   transform: translateY(-2px);
-  opacity: 0.9;
+  opacity: .9;
 }
 
 .review-box small {
@@ -413,14 +755,107 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.5;
 }
 
-/* Scroll halus ketika menu Review ditekan */
-html {
-  scroll-behavior: smooth;
+/* =========================================================
+   FLOATING WHATSAPP + FOOTER
+   ========================================================= */
+
+.floating-wa {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 58px;
+  height: 58px;
+  border: 0;
+  border-radius: 50%;
+  background: #25d366;
+  color: white;
+  font-size: 27px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, .22);
+  z-index: 40;
+  cursor: pointer;
 }
 
+.footer {
+  background: #05070a;
+  color: #9da8b5;
+  padding: 25px 0;
+}
+
+.footer-wrap {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+}
+
+.footer strong {
+  color: white;
+}
+
+.footer span {
+  margin-left: 8px;
+  font-size: 12px;
+}
+
+/* =========================================================
+   REVEAL
+   ========================================================= */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: .7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 980px) {
+
+  .hero-grid,
+  .two-col,
+  .contact-box {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-grid {
+    padding-top: 70px;
+    padding-bottom: 70px;
+  }
+
+  .hero-card {
+    max-width: 500px;
+  }
+
+  .service-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .advantage-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
 @media (max-width: 720px) {
-  .container { width: min(var(--container), calc(100% - 28px)); }
-  .menu-toggle { display: block; }
+
+  .container {
+    width: min(var(--container), calc(100% - 28px));
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
   .nav {
     position: absolute;
     left: 14px;
@@ -434,124 +869,78 @@ html {
     border: 1px solid #252b34;
     border-radius: 14px;
   }
-  .nav.open { display: flex; }
-  .nav a { padding: 9px; }
-  .hero h1 { letter-spacing: -2px; }
-  .hero-card { min-height: 320px; padding: 30px; }
-  .section { padding: 75px 0; }
-  .service-grid, .advantage-grid { grid-template-columns: 1fr; }
-  .contact-box { padding: 28px; gap: 30px; }
-  .footer-wrap { flex-direction: column; align-items: flex-start; }
-}
-/* =========================
-   AREA LAYANAN WANSTEKNIK
-========================= */
 
-.area-layanan {
-  padding: 70px 20px;
-  background: #f8fafc;
-}
+  .nav.open {
+    display: flex;
+  }
 
-.area-layanan .container {
-  max-width: 1100px;
-  margin: 0 auto;
-}
+  .nav a {
+    padding: 9px;
+  }
 
-/* JUDUL */
+  .hero h1 {
+    letter-spacing: -2px;
+  }
 
-.area-layanan .section-title {
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto 40px;
-}
+  .hero-card {
+    min-height: 320px;
+    padding: 30px;
+  }
 
-.area-layanan .section-badge {
-  display: inline-block;
-  padding: 7px 14px;
-  margin-bottom: 12px;
-  border-radius: 30px;
-  background: #e8f4ff;
-  font-size: 14px;
-  font-weight: 600;
-}
+  .section {
+    padding: 75px 0;
+  }
 
-.area-layanan .section-title h2 {
-  margin: 0 0 12px;
-  font-size: 34px;
-  line-height: 1.2;
-}
+  .service-grid,
+  .advantage-grid {
+    grid-template-columns: 1fr;
+  }
 
-.area-layanan .section-title p {
-  margin: 0;
-  color: #64748b;
-  line-height: 1.7;
-}
+  .contact-box {
+    padding: 28px;
+    gap: 30px;
+  }
 
-/* GRID */
+  .footer-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-.area-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  max-width: 850px;
-  margin: 0 auto;
-}
+  /* HERO BUTTON MOBILE */
 
-/* CARD */
+  .hero-actions {
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 8px;
+    row-gap: 10px;
+  }
 
-.area-card {
-  background: #ffffff;
-  padding: 32px 28px;
-  text-align: center;
-  border-radius: 18px;
-  border: 1px solid #e5e7eb;
-  transition: transform 0.3s ease,
-              box-shadow 0.3s ease;
-}
+  .hero-actions .btn {
+    width: 100%;
+    min-width: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 13px;
+    white-space: normal;
+    text-align: center;
+  }
 
-.area-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-}
+  .hero-actions .btn-primary {
+    grid-column: 1;
+    grid-row: 1;
+  }
 
-/* ICON */
+  .hero-actions .btn-outline:nth-of-type(2) {
+    grid-column: 2;
+    grid-row: 1;
+  }
 
-.area-icon {
-  font-size: 42px;
-  margin-bottom: 15px;
-}
+  .hero-actions .btn-outline:nth-of-type(3) {
+    grid-column: 2;
+    grid-row: 2;
+  }
 
-/* JUDUL CARD */
-
-.area-card h3 {
-  margin: 0 0 12px;
-  font-size: 21px;
-}
-
-/* DESKRIPSI */
-
-.area-card p {
-  margin: 0 0 20px;
-  color: #64748b;
-  line-height: 1.7;
-}
-
-/* STATUS */
-
-.area-status {
-  display: inline-block;
-  padding: 7px 14px;
-  border-radius: 20px;
-  background: #f1f5f9;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 768px) {
+  /* AREA LAYANAN MOBILE */
 
   .area-layanan {
     padding: 55px 16px;
@@ -570,14 +959,41 @@ html {
     padding: 28px 20px;
   }
 
-   .area-icon {
+  .area-icon {
     font-size: 38px;
-   }
+  }
+}
 
-   }
+/* =========================================================
+   SMALL PHONE
+   ========================================================= */
 
- .hero-secondary-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 12px; }
+@media (max-width: 430px) {
+
+  .brand img {
+    width: 210px !important;
+    height: 48px !important;
+  }
+
+  .hero-actions {
+    column-gap: 6px;
+  }
+
+  .hero-actions .btn {
+    font-size: 12px;
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+
+  .hero-points {
+    gap: 10px;
+    font-size: 12px;
+  }
+
+  .floating-wa {
+    right: 15px;
+    bottom: 15px;
+    width: 54px;
+    height: 54px;
+  }
+   }
