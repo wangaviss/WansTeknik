@@ -105,7 +105,6 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .howto-tip{padding:13px;border-radius:13px;background:#172a43;color:#dbeafe;font-size:14px;line-height:1.5}
 .howto-bottom{width:100%;margin-top:14px}
 @media(max-width:500px){.howto-modal{padding:15px;border-radius:17px;max-height:92vh}.howto-step{padding:10px}}
-
 </style>
 </head>
 <body>
@@ -193,7 +192,6 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
   </div>
   <div id="resultRank" class="rank"></div>
 </section>
-
 
 <!-- Modal Cara Bermain -->
 <div id="howToPlayModal" class="howto-overlay" aria-hidden="true">
@@ -360,8 +358,6 @@ async function submitScore(){
   submitted = true;
 
   const finalScore = Math.max(0, Math.floor(score));
-
-  // Selalu simpan lokal sebagai cadangan.
   saveLocalScore();
 
   if (!db) {
@@ -482,7 +478,7 @@ function toggleDevice(id){
     score += gain;
     showMessage(`✅ ${d.name} ON +${gain} skor`, "good");
 
-    // Check level up
+    // Level up check
     const nextLevel = 1 + Math.floor(score / 250);
     if (nextLevel > level) {
       level = nextLevel;
@@ -612,34 +608,26 @@ playerName.addEventListener("keydown",e => {
 
 window.addEventListener("beforeunload",() => clearInterval(timer));
 
-/* Initial ranking load */
+/* Initial rank load */
 loadGlobalRanking();
 
-/* Modal Event Handlers */
+/* Event Handlers Modal Cara Bermain */
 document.addEventListener("DOMContentLoaded", function () {
     const btn = document.getElementById("howToPlayBtn");
     const modal = document.getElementById("howToPlayModal");
     const closeBtn = document.getElementById("closeHowToPlay");
     const closeBtnBottom = document.getElementById("closeHowToPlayBottom");
 
-    if (!btn || !modal || !closeBtn) {
-        console.error("Elemen Cara Bermain tidak ditemukan.");
-        return;
-    }
+    if (!btn || !modal || !closeBtn) return;
 
     const closeModal = () => modal.classList.remove("show");
 
-    btn.onclick = function () {
-        modal.classList.add("show");
-    };
-
+    btn.onclick = () => modal.classList.add("show");
     closeBtn.onclick = closeModal;
     if (closeBtnBottom) closeBtnBottom.onclick = closeModal;
 
-    modal.onclick = function (e) {
-        if (e.target === modal) {
-            closeModal();
-        }
+    modal.onclick = (e) => {
+        if (e.target === modal) closeModal();
     };
 });
 </script>
