@@ -487,12 +487,12 @@ function toggleDevice(id){
 
     // Naik level setiap beberapa poin.
     const nextLevel = 1 + Math.floor(score / 250);
-    if (nextLevel > level) {
-      level = nextLevel;
-      timeLeft = Math.min(timeLeft + 8,45);
-      showMessage(`🚀 LEVEL ${level}! +8 detik`, "info");
-      setTimeout(() => { if(gameActive) buildLevel(); }, 450);
-    }
+     if (nextLevel > level) {
+    level = nextLevel;
+   timeLeft = Math.min(timeLeft + 8,45);
+  showMessage(`🚀 LEVEL ${level}! +8 detik`, "info");
+  setTimeout(() => { if(gameActive) buildLevel(); }, 450);
+      }
   } else {
     d.on = false;
     currentLoad -= d.load;
