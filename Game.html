@@ -222,8 +222,6 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
 <script>
 /* =========================================================
    SUPABASE CONFIG
-   GANTI 2 NILAI DI BAWAH INI DENGAN DATA PROJECT SUPABASE.
-   JANGAN MASUKKAN service_role key.
    ========================================================= */
 const SUPABASE_URL = "https://jzidgyqsadmunlcymvbq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_Exxc-ZEpZlFXjqs0WW2AOQ_VpwWYIxF";
@@ -399,7 +397,7 @@ async function submitScore(){
 }
 
 /* =========================================================
-   GAME
+   GAME LOGIC
    ========================================================= */
 function startGame(){
   player = playerName.value.trim().replace(/\s+/g," ").slice(0,20);
@@ -440,7 +438,6 @@ function buildLevel(){
 
   const count = Math.min(6 + Math.floor((level-1)/2), 10);
 
-  // Shuffle pool dan ambil perangkat.
   const shuffled = [...DEVICE_POOL].sort(() => Math.random() - .5);
   devices = shuffled.slice(0,count).map((d,i) => ({
     ...d,id:i,on:false
@@ -485,14 +482,14 @@ function toggleDevice(id){
     score += gain;
     showMessage(`✅ ${d.name} ON +${gain} skor`, "good");
 
-    // Naik level setiap beberapa poin.
+    // Check level up
     const nextLevel = 1 + Math.floor(score / 250);
-     if (nextLevel > level) {
-    level = nextLevel;
-   timeLeft = Math.min(timeLeft + 8,45);
-  showMessage(`🚀 LEVEL ${level}! +8 detik`, "info");
-  setTimeout(() => { if(gameActive) buildLevel(); }, 450);
-      }
+    if (nextLevel > level) {
+      level = nextLevel;
+      timeLeft = Math.min(timeLeft + 8, 45);
+      showMessage(`🚀 LEVEL ${level}! +8 detik`, "info");
+      setTimeout(() => { if(gameActive) buildLevel(); }, 450);
+    }
   } else {
     d.on = false;
     currentLoad -= d.load;
@@ -615,30 +612,33 @@ playerName.addEventListener("keydown",e => {
 
 window.addEventListener("beforeunload",() => clearInterval(timer));
 
-/* Mulai dengan ranking */
+/* Initial ranking load */
 loadGlobalRanking();
 
+/* Modal Event Handlers */
 document.addEventListener("DOMContentLoaded", function () {
     const btn = document.getElementById("howToPlayBtn");
     const modal = document.getElementById("howToPlayModal");
     const closeBtn = document.getElementById("closeHowToPlay");
+    const closeBtnBottom = document.getElementById("closeHowToPlayBottom");
 
     if (!btn || !modal || !closeBtn) {
         console.error("Elemen Cara Bermain tidak ditemukan.");
         return;
     }
 
+    const closeModal = () => modal.classList.remove("show");
+
     btn.onclick = function () {
         modal.classList.add("show");
     };
 
-    closeBtn.onclick = function () {
-        modal.classList.remove("show");
-    };
+    closeBtn.onclick = closeModal;
+    if (closeBtnBottom) closeBtnBottom.onclick = closeModal;
 
     modal.onclick = function (e) {
         if (e.target === modal) {
-            modal.classList.remove("show");
+            closeModal();
         }
     };
 });
