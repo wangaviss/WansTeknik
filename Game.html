@@ -457,6 +457,7 @@ function renderDevices(){
 }
 
 function toggleDevice(id){
+function toggleDevice(id){
   if (!gameActive) return;
 
   const d = devices.find(x => x.id === id);
@@ -482,25 +483,32 @@ function toggleDevice(id){
   updateUI();
   updateDeviceVisuals();
 
-  // --- 1. CEK OVERLOAD (Game Over Jika Beban Melebihi Kapasitas) ---
+  // --- 1. CEK OVERLOAD ---
   if (currentLoad > capacity) {
     finishGame("⚡ OVERLOAD! Beban listrik melebihi kapasitas!");
     return;
   }
 
-  // --- 2. CEK NAIK LEVEL (Semua Sakelar ON & Tidak Overload) ---
+  // --- 2. CEK NAIK LEVEL / TAMAT MAX LEVEL 30 ---
   const allDevicesOn = devices.length > 0 && devices.every(item => item.on);
 
   if (allDevicesOn) {
+    // Jika sudah menyelesaikan Level 30 -> TAMAT / MENANG
+    if (level >= 30) {
+      finishGame("🏆 TAMAT! Selamat, kamu berhasil menamatkan game sampai Level 30!");
+      return;
+    }
+
+    // Jika belum Level 30 -> Naik Level
     level++;
-    timeLeft = Math.min(timeLeft + 2, 30); // Bonus +8 detik
-    showMessage(`🚀 LEVEL ${level}! +2 detik`, "info");
+    showMessage(`🚀 LEVEL ${level}! +2 detik waktu diawal`, "info");
     
     setTimeout(() => { 
       if (gameActive) buildLevel(); 
     }, 450);
   }
 }
+
 
 function updateDeviceVisuals(){
   document.querySelectorAll(".device").forEach(el => {
