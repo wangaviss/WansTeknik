@@ -493,8 +493,8 @@ function toggleDevice(id){
 
   if (allDevicesOn) {
     level++;
-    timeLeft = Math.min(timeLeft + 8, 50); // Bonus +8 detik
-    showMessage(`🚀 LEVEL ${level}! +8 detik`, "info");
+    timeLeft = Math.min(timeLeft + 2, 30); // Bonus +8 detik
+    showMessage(`🚀 LEVEL ${level}! +2 detik`, "info");
     
     setTimeout(() => { 
       if (gameActive) buildLevel(); 
