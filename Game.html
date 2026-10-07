@@ -105,7 +105,6 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .howto-tip{padding:13px;border-radius:13px;background:#172a43;color:#dbeafe;font-size:14px;line-height:1.5}
 .howto-bottom{width:100%;margin-top:14px}
 @media(max-width:500px){.howto-modal{padding:15px;border-radius:17px;max-height:92vh}.howto-step{padding:10px}}
-
 </style>
 </head>
 <body>
@@ -194,7 +193,6 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
   <div id="resultRank" class="rank"></div>
 </section>
 
-
 <!-- Modal Cara Bermain -->
 <div id="howToPlayModal" class="howto-overlay" aria-hidden="true">
   <div class="howto-modal" role="dialog" aria-modal="true" aria-labelledby="howToPlayTitle">
@@ -205,9 +203,9 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
     <div class="howto-content">
       <div class="howto-step"><span>1</span><div><b>Masukkan nama</b><p>Ketik nama pemain, lalu tekan <b>🎮 Mulai Game</b>.</p></div></div>
       <div class="howto-step"><span>2</span><div><b>Nyalakan perangkat</b><p>Klik perangkat untuk menyalakannya dan menambah skor.</p></div></div>
-      <div class="howto-step"><span>3</span><div><b>Jangan overload</b><p>Total beban tidak boleh melebihi kapasitas. Jika mencoba overload, kamu kehilangan <b>20 skor</b> dan combo reset.</p></div></div>
+      <div class="howto-step"><span>3</span><div><b>Jangan overload</b><p>Total beban tidak boleh melebihi kapasitas. Jika beban melebihi kapasitas, permainan berakhir!</p></div></div>
       <div class="howto-step"><span>4</span><div><b>Kejar combo</b><p>Nyalakan perangkat berturut-turut untuk mendapatkan bonus combo.</p></div></div>
-      <div class="howto-step"><span>5</span><div><b>Naik level</b><p>Setiap mencapai skor tertentu, level naik dan kamu mendapat tambahan waktu.</p></div></div>
+      <div class="howto-step"><span>5</span><div><b>Naik level</b><p>Nyalakan semua sakelar pada stage untuk naik level dan mendapat bonus waktu.</p></div></div>
       <div class="howto-tip">💡 <b>Tips:</b> Perhatikan bar kapasitas. 70% = tinggi, 90% = kritis. Atur perangkat agar tidak melewati batas.</div>
     </div>
     <button id="closeHowToPlayBottom" class="howto-bottom">Siap, Mulai Main! 🎮</button>
@@ -361,7 +359,6 @@ async function submitScore(){
 
   const finalScore = Math.max(0, Math.floor(score));
 
-  // Selalu simpan lokal sebagai cadangan.
   saveLocalScore();
 
   if (!db) {
@@ -433,14 +430,15 @@ function startGame(){
 function buildLevel(){
   clearMessage();
 
-  capacity = Math.min(100 + ((level-1)*15), 220);
+  // Kapasitas Watt naik bertahap sesuai level
+  capacity = Math.min(100 + ((level - 1) * 20), 250);
   currentLoad = 0;
 
-  const count = Math.min(6 + Math.floor((level-1)/2), 10);
+  const count = Math.min(3 + Math.floor((level - 1) / 2), 8);
 
   const shuffled = [...DEVICE_POOL].sort(() => Math.random() - .5);
-  devices = shuffled.slice(0,count).map((d,i) => ({
-    ...d,id:i,on:false
+  devices = shuffled.slice(0, count).map((d, i) => ({
+    ...d, id: i, on: false
   }));
 
   renderDevices();
@@ -464,56 +462,44 @@ function toggleDevice(id){
   const d = devices.find(x => x.id === id);
   if (!d) return;
 
-  if (!d.on) {
-    if (currentLoad + d.load > capacity) {
-      combo = 0;
-      score = Math.max(0, score - 20);
-      showMessage("⚠️ OVERLOAD! Perangkat tidak bisa dinyalakan. -20 skor.", "bad");
-      updateUI();
-      return;
-    }
+  // Toggle status sakelar
+  d.on = !d.on;
 
-    d.on = true;
-    currentLoad += d.load;
+  if (d.on) {
     combo++;
-    bestCombo = Math.max(bestCombo,combo);
-
-    const gain = 10 + (level * 3) + Math.min(combo * 2,20);
+    bestCombo = Math.max(bestCombo, combo);
+    const gain = 10 + (level * 3) + Math.min(combo * 2, 20);
     score += gain;
     showMessage(`✅ ${d.name} ON +${gain} skor`, "good");
-
-    // --- 1. CEK OVERLOAD (Game Over Jika Beban Melebihi Kapasitas) ---
-const totalWatt = devices.reduce((sum, d) => sum + (d.on ? d.watt : 0), 0);
-
-if (totalWatt > capacity) {
-  // Overload terjadi! Game berakhir
-  endGame("⚡ OVERLOAD! Beban listrik melebihi kapasitas!");
-  return;
-}
-
-// --- 2. CEK NAIK LEVEL (Tanpa Syarat Poin) ---
-// Naik level jika SEMUA sakelar di level saat ini berhasil dinyalakan (ON)
-const allDevicesOn = devices.length > 0 && devices.every(d => d.on);
-
-if (allDevicesOn) {
-  level++;
-  timeLeft = Math.min(timeLeft + 8, 45); // Bonus waktu +8 detik
-  showMessage(`🚀 LEVEL ${level}! +8 detik`, "info");
-  
-  // Perbarui grid ke level berikutnya
-  setTimeout(() => { 
-    if (gameActive) buildLevel(); 
-  }, 450);
-  }
   } else {
-    d.on = false;
-    currentLoad -= d.load;
     combo = 0;
     showMessage(`↩️ ${d.name} OFF`, "info");
   }
 
+  // Hitung ulang total beban listrik aktif
+  currentLoad = devices.reduce((sum, item) => sum + (item.on ? item.load : 0), 0);
+
   updateUI();
   updateDeviceVisuals();
+
+  // --- 1. CEK OVERLOAD (Game Over Jika Beban Melebihi Kapasitas) ---
+  if (currentLoad > capacity) {
+    finishGame("⚡ OVERLOAD! Beban listrik melebihi kapasitas!");
+    return;
+  }
+
+  // --- 2. CEK NAIK LEVEL (Semua Sakelar ON & Tidak Overload) ---
+  const allDevicesOn = devices.length > 0 && devices.every(item => item.on);
+
+  if (allDevicesOn) {
+    level++;
+    timeLeft = Math.min(timeLeft + 8, 50); // Bonus +8 detik
+    showMessage(`🚀 LEVEL ${level}! +8 detik`, "info");
+    
+    setTimeout(() => { 
+      if (gameActive) buildLevel(); 
+    }, 450);
+  }
 }
 
 function updateDeviceVisuals(){
@@ -521,8 +507,8 @@ function updateDeviceVisuals(){
     const id = Number(el.dataset.id);
     const d = devices.find(x => x.id === id);
     if (!d) return;
-    el.classList.toggle("on",d.on);
-    el.classList.toggle("off",!d.on);
+    el.classList.toggle("on", d.on);
+    el.classList.toggle("off", !d.on);
     el.querySelector(".device-state").textContent = d.on ? "ON • AKTIF" : "OFF";
   });
 }
@@ -534,11 +520,11 @@ function updateUI(){
   $("uiLoad").textContent = currentLoad;
   $("uiCapacity").textContent = capacity;
 
-  const pct = Math.min((currentLoad/capacity)*100,100);
+  const pct = Math.min((currentLoad / capacity) * 100, 100);
   const bar = $("capacityBar");
   bar.style.width = pct + "%";
-  bar.classList.toggle("warn",pct >= 70 && pct < 90);
-  bar.classList.toggle("danger",pct >= 90);
+  bar.classList.toggle("warn", pct >= 70 && pct < 90);
+  bar.classList.toggle("danger", pct >= 90);
 
   const badge = $("loadBadge");
   if (pct >= 90) {
